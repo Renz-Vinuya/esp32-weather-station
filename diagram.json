@@ -11,14 +11,25 @@
       "left": 173.03,
       "attrs": { "i2cAddress": "0x3c" }
     },
-    { "type": "wokwi-dht22", "id": "dht1", "top": 240.3, "left": 167.4, "attrs": {} }
+    { "type": "wokwi-dht22", "id": "dht1", "top": 240.3, "left": 167.4, "attrs": {} },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb1",
+      "top": 80.8,
+      "left": -85.3,
+      "attrs": { "common": "cathode" }
+    }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
     [ "oled1:SDA", "esp:21", "limegreen", [ "v0" ] ],
     [ "oled1:SCL", "esp:22", "green", [ "v-28.8", "h-143.7" ] ],
-    [ "dht1:SDA", "esp:2", "green", [ "v0" ] ]
+    [ "dht1:SDA", "esp:2", "green", [ "v0" ] ],
+    [ "rgb1:COM", "esp:GND.1", "green", [ "v18.8", "h38.5" ] ],
+    [ "rgb1:R", "esp:13", "green", [ "v0" ] ],
+    [ "rgb1:G", "esp:12", "green", [ "v0" ] ],
+    [ "rgb1:B", "esp:14", "green", [ "v0" ] ]
   ],
   "dependencies": {}
 }

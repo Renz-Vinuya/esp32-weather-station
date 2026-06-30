@@ -11,6 +11,10 @@
 #define DHTPIN 2
 #define DHTTYPE DHT22
 
+#define RED_PIN 13    // Top wire in your photo
+#define GREEN_PIN 12  // Third wire from top
+#define BLUE_PIN 14   // Fourth wire from top
+
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -25,9 +29,19 @@ void setup(){
       for(;;);
   }
 
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
+  
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
 
+}
+
+void setRGB(int r, int g, int b){
+  analogWrite(RED_PIN, r);
+  analogWrite(GREEN_PIN, g);
+  analogWrite(BLUE_PIN, b);
 }
 
 void loop(){
@@ -36,10 +50,21 @@ void loop(){
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
 
+  float coldTemp = 22;
+  float hotTemp = 30;
+
   if(isnan(humidity) || isnan(temperature))
   {
     Serial.println("Failed to read form DHT sensor");
     return;
+  }
+
+  if(temperature < coldTemp){
+    setRGB(0, 0, 255);
+  } else if(temperature > hotTemp){
+    setRGB(255, 0, 0);
+  } else {
+    setRGB(0, 255, 0);
   }
 
   Serial.print(F("Humidity: "));
